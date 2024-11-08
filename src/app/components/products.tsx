@@ -10,6 +10,8 @@ export default function Products() {
   
   }
     const [data, setData] = useState<Item[]>([]);
+    const [addSpaghetti, setSpaghetti] = useState(false);
+    const [removeItem, setRemoveItem] = useState(false);
   
     useEffect(() => {
       fetch('products.json')
@@ -29,9 +31,31 @@ export default function Products() {
           <li key={item.id}>{item.name}</li>
         ))}
       </ul>
-      <button onClick={()=> {const newdata =  data.concat({id:data.length+1, name: "Spaghetti"}); setData(newdata)}} value="Spaghetti">
+
+      <button disabled = {addSpaghetti}
+      onClick={()=> {
+        setSpaghetti(true)
+        const newdata =  data.concat({id:data.length+1, name: "Spaghetti"})
+        setData(newdata)
+        setRemoveItem(false)
+      }} 
+      value="Spaghetti">
+
       Add Spaghetti
+    </button >
+
+    <button 
+      disabled = {removeItem}
+      onClick={()=> {
+      if(data.length ==1){setRemoveItem(true)}
+      setSpaghetti(false);
+      const newData = [...data.slice(0, -1)]
+      setData(newData)
+    }}>
+    Remove item
+
     </button>
+
     </div>      
     );
   }
