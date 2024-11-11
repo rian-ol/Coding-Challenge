@@ -10,16 +10,20 @@ export default function Products() {
   
   }
     const [data, setData] = useState<Item[]>([]);
-    const [addSpaghetti, setSpaghetti] = useState(false);
-    const [removeItem, setRemoveItem] = useState(false);
+    const [addSpaghetti, setSpaghetti] = useState<boolean>(false);
+    const [removeItem, setRemoveItem] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(true);
   
     useEffect(() => {
       fetch('products.json')
         .then(response => response.json())
-        .then(json => setData(json));
+        .then(json => {
+          setData(json)
+          setLoading(false)
+        });
     },[]);
   
-    if (!data) {
+    if (loading) {
       return <p>Loading...</p>;
     }
   
